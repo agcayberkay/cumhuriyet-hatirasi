@@ -1,0 +1,200 @@
+﻿
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>@ViewData["Title"]</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+
+    <style>
+        body {
+            background-color: #a00000;
+            background-image: url('/images/ataturk.png');
+            background-repeat: no-repeat;
+            background-position: center center;
+            background-size: 70%;
+            background-attachment: fixed;
+            color: white;
+            position: relative;
+        }
+
+            body::before {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background: rgba(160, 0, 0, 0.85);
+                backdrop-filter: blur(0.5px);
+                z-index: -1;
+            }
+
+            body::after {
+                content: "";
+                position: fixed;
+                inset: 0;
+                background-image: url('/images/ataturk.png');
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: 70%;
+                opacity: 0.14;
+                z-index: -2;
+            }
+
+        .glass {
+            background: rgba(255,255,255,0.92);
+            backdrop-filter: blur(6px);
+        }
+
+        .flag {
+            width: 88px;
+            height: 58px;
+            border-radius: 8px;
+            overflow: hidden;
+            margin: 0 auto;
+        }
+
+        /* 🎶 Müzik butonu */
+        #musicControl {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255,255,255,0.85);
+            color: #a00000;
+            font-weight: 600;
+            border-radius: 50px;
+            padding: 8px 16px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            transition: all 0.3s ease;
+            z-index: 999;
+        }
+
+            #musicControl:hover {
+                background: white;
+            }
+    </style>
+</head>
+<body class="bg-red-700 text-white min-h-screen flex items-center justify-center">
+
+    <!-- 🎵 Arka plan müziği -->
+    <audio id="bgMusic" loop autoplay playsinline>
+        <source src="/audio/mars.mp3" type="audio/mpeg">
+    </audio>
+
+    <!-- 🔊 Müzik kontrol butonu -->
+    <div id="musicControl">🔇 Müziği Durdur</div>
+
+    <main class="w-full max-w-xl px-5 py-10">
+        <header class="text-center mb-8">
+            <div class="flag shadow mb-4">
+                <img src="/images/Turkey.png" alt="Türk Bayrağı" class="w-full h-auto" />
+            </div>
+            <h1 class="text-3xl font-extrabold tracking-tight">🇹🇷 Cumhuriyet Hatırası</h1>
+            <p class="opacity-90 mt-2">Cumhuriyetimizin 102. yılına özel dijital hatıranı oluştur ve indir.</p>
+        </header>
+
+        <section class="text-center">
+            <div class="flex flex-col items-center gap-3">
+                <input id="nameInput" maxlength="60"
+                       placeholder="Adını yaz…"
+                       class="w-72 sm:w-80 text-black px-4 py-2 rounded outline-none focus:ring-2 focus:ring-white/70" />
+                <button id="createBtn"
+                        class="bg-white text-red-700 font-bold px-6 py-2 rounded hover:opacity-90 transition">
+                    Kartımı Oluştur
+                </button>
+            </div>
+
+            <!-- Kart Alanı -->
+            <div id="cardWrap" class="hidden mt-8">
+                <div id="hatira-card" class="glass text-red-700 rounded-2xl shadow-2xl p-6 mx-auto w-[320px]">
+                    <div class="flag shadow mb-4">
+                        <img src="/images/Turkey.png" alt="Türk Bayrağı" class="w-full h-auto" />
+                    </div>
+
+                    <h2 id="displayName" class="text-xl font-semibold text-center mb-1"></h2>
+                    <p class="text-sm text-center mb-3">Cumhuriyetimizin 102. Yılı Anısına</p>
+
+                    <div class="flex justify-center">
+                        <div id="qrcode" class="p-1 border-2 border-red-700 rounded"></div>
+                    </div>
+
+                    <p class="italic text-xs text-center mt-4">“Egemenlik kayıtsız şartsız milletindir.”</p>
+
+                    <!-- ✍️ Atatürk imzası ve tarih -->
+                    <div class="text-center mt-3">
+                        <img src="/images/signature.png" alt="Atatürk İmzası"
+                             class="mx-auto w-24 opacity-80 mb-1" />
+                        <p class="italic text-xs text-red-700">29 Ekim 1923</p>
+                    </div>
+                </div>
+
+                <div class="flex flex-col items-center gap-3 mt-6">
+                    <button id="downloadBtn"
+                            class="bg-red-900 text-white font-semibold px-6 py-2 rounded hover:bg-red-800 transition">
+                        PNG Olarak İndir
+                    </button>
+                    <button id="newBtn" class="underline text-white/90 hover:text-white">Yeni Kart Oluştur</button>
+                </div>
+                <div id="shareButtons" class="hidden flex flex-col items-center gap-3 mt-6">
+                    <p class="text-xs text-white/80 italic">
+                        📱 Paylaşmak için önce kartını indir, ardından açılan uygulamada yükle!
+                    </p>
+                    <div class="flex justify-center gap-4 text-2xl">
+                        <a id="shareTwitter" target="_blank" class="text-white hover:text-blue-400 transition">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                        <a id="shareFacebook" target="_blank" class="text-white hover:text-blue-600 transition">
+                            <i class="fa-brands fa-facebook"></i>
+                        </a>
+                        <a id="shareInstagram" target="_blank" class="text-white hover:text-pink-500 transition">
+                            <i class="fa-brands fa-instagram"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <footer class="text-center mt-10 text-white/80 text-sm">
+            29 Ekim Cumhuriyet Bayramımız Kutlu Olsun! <br />
+            <span class="text-xs text-white/60 block mt-2">
+                © 2025 Agcay Soft — Tüm Hakları Saklıdır.
+            </span>
+        </footer>
+
+    </main>
+
+    <!-- JS Dosyaları -->
+    <script src="/js/qrcode.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    <script src="/js/hatira.js"></script>
+
+    <!-- 🎵 Müzik kontrol scripti -->
+    <script>
+        const music = document.getElementById('bgMusic');
+        const musicControl = document.getElementById('musicControl');
+        let isPlaying = true;
+
+        // 🔊 Tarayıcı oto oynatmaya izin vermezse, ilk tıklamada başlasın
+        window.addEventListener('load', () => {
+            music.play().catch(() => {
+                isPlaying = false;
+                musicControl.textContent = '🔊 Müziği Başlat';
+            });
+        });
+
+        // 🔁 Buton kontrolü
+        musicControl.addEventListener('click', () => {
+            if (!isPlaying) {
+                music.play();
+                isPlaying = true;
+                musicControl.textContent = '🔇 Müziği Durdur';
+            } else {
+                music.pause();
+                isPlaying = false;
+                musicControl.textContent = '🔊 Müziği Başlat';
+            }
+        });
+    </script>
+</body>
+</html>

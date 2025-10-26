@@ -1,0 +1,118 @@
+﻿/* === Varsayılan ayarlar (kalsın) === */
+html {
+    font-size: 14px;
+}
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus,
+.btn:active:focus,
+.btn-link.nav-link:focus,
+.form-control:focus,
+.form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #e30a17;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    color: #fff;
+    font-family: 'Poppins', sans-serif;
+    text-align: center;
+    /* 🇹🇷 Arka plan */
+    background: linear-gradient(180deg, #7b0000 0%, #a00000 100%);
+    background-image: url('/images/ataturk-silhouette.png');
+    background-repeat: no-repeat;
+    background-position: bottom right;
+    background-size: 45%;
+    /* Sayfa hizalama */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    margin: 0;
+    overflow-x: hidden;
+}
+
+    /* 🎆 Işık parlaması efekti */
+    body::after {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background: radial-gradient(circle at center, rgba(255,255,255,0.1), transparent 70%);
+        z-index: -1;
+    }
+
+/* 🎇 Kırmızı tonlu butonlar */
+.btn-primary {
+    background-color: #e30a17;
+    border-color: #e30a17;
+    font-weight: 600;
+    transition: 0.3s;
+}
+
+    .btn-primary:hover {
+        background-color: #c00813;
+        border-color: #c00813;
+        transform: scale(1.05);
+    }
+
+/* 🧾 Kart tasarımı */
+.card-hatirasi {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-radius: 16px;
+    padding: 2rem;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+    max-width: 480px;
+    width: 90%;
+    margin: 1rem auto;
+    color: #fff;
+}
+
+/* 🏷️ Input kutusu */
+input.form-control {
+    max-width: 300px;
+    margin: 1rem auto;
+    border-radius: 8px;
+    border: none;
+    text-align: center;
+}
+
+/* ✨ Başlık */
+h1 {
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+/* ✨ Alt metin */
+.footer-text {
+    margin-top: 1.5rem;
+    font-size: 0.9rem;
+    opacity: 0.9;
+}
+
+/* 📱 Responsive düzen */
+@media (max-width: 768px) {
+    body {
+        background-size: 80%;
+        background-position: bottom center;
+    }
+
+    .card-hatirasi {
+        padding: 1.5rem;
+    }
+
+    h1 {
+        font-size: 1.4rem;
+    }
+}
